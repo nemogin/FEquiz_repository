@@ -1,0 +1,745 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>
+        クイズ！
+    </title>
+    <style> 
+        <!--
+        .radio {
+            text-align: center; 
+            font-size: 300%;
+        }
+
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body background='空.jpg' bgColor="#000000" text="#ffffff" id="body">
+
+    <script>
+        var the; //ジャンル設定用パラメータ
+        var iq = 0; //総問題数
+        var cor = 0; //正解数
+
+        var array_s = [0, 0, 0, 0, 0, 0, 0, 0];　//スポーツの重複防止用配列
+        var array_j = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //情報の重複防止用配列
+        var array_h = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //秘書の重複防止用配列
+        var array_i = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //一般常識の重複防止用配列
+
+        var maru = document.createElement('img'); //〇画像の作成
+        var batu = document.createElement('img'); //×画像の作成
+
+        maru.src = 'gdata/マル.png';
+        batu.src = 'gdata/バツ.png';
+
+        maru.width = 170;
+        batu.width = 200;
+
+        maru.height = 170;
+        batu.height = 200;
+
+        //音楽の作成
+        var music_cor = new Audio('correct.mp3');
+        var music_wro = new Audio('wrong.mp3');
+        var cancel = new Audio('キャンセル.mp3');
+        var select = new Audio('select.mp3');
+        var bell = new Audio('チーン.mp3');
+        var fanfare = new Audio('ファンファーレ.mp3');
+        var manuke = new Audio('間抜け.mp3');
+        var level = new Audio('レベルアップ.mp3');
+
+        var bgm = document.getElementById("bgm");
+
+        function radio_select() {
+            radio1 = document.getElementById("ra1");
+            radio2 = document.getElementById("ra2");
+            radio3 = document.getElementById("ra3");
+            radio4 = document.getElementById("ra4");
+
+            ira1 = radio1.checked;
+            ira2 = radio2.checked;
+            ira3 = radio3.checked;
+            ira4 = radio4.checked;
+
+
+
+            txt1 = document.getElementById("r1");
+            txt2 = document.getElementById("r2");
+            txt3 = document.getElementById("r3");
+            txt4 = document.getElementById("r4");
+            cat = document.getElementById("category");
+
+
+            if (ira1 == true) {
+                select.play();
+
+                cat.remove();
+                txt2.remove();
+                txt3.remove();
+                txt4.remove();
+                document.getElementById("btn").remove();
+
+                make_question(1);
+            }
+            else if (ira2 == true) {
+                select.play();
+
+                cat.remove();
+                txt1.remove();
+                txt3.remove();
+                txt4.remove();
+                document.getElementById("btn").remove();
+
+                make_question(2);
+            }
+            else if (ira3 == true) {
+                select.play();
+
+                cat.remove();
+                txt1.remove();
+                txt2.remove();
+                txt4.remove();
+                document.getElementById("btn").remove();
+
+                make_question(3);
+            }
+            else if (ira4 == true) {
+                select.play();
+
+                cat.remove();
+                txt1.remove();
+                txt2.remove();
+                txt3.remove();
+                document.getElementById("btn").remove();
+
+                make_question(4);
+            }
+            else {
+                cancel.play();
+                alert("ボタンにチェックを付けて！");
+            }
+
+        }
+
+        function make_question(i) {
+
+            the = i;
+
+            document.body.appendChild(maru);
+            document.body.appendChild(batu);
+
+            if (the == 1) {
+                r = Math.random() * 10;
+                if (0 <= r && r < 1.25) {
+                    if (array_s[0] == 0) {
+                        document.getElementById("a1").innerText = ("バスケットボールについて、ボールを持った状態での1歩目の足をファーストフットと呼ぶ。");
+                        array_s[0] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (1.25 <= r && r < 2.5) {
+                    if (array_s[1] == 0) {
+                        document.getElementById("a1").innerText = ("サッカーにおいて、相手のパスを奪うプレーをインターセプトという。");
+                        array_s[1] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (2.5 <= r && r < 3.75) {
+                    if (array_s[2] == 0) {
+                        document.getElementById("a1").innerText = ("野球について、満塁ホームランのことをクロスファイヤーという。");
+                        array_s[2] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (3.75 <= r && r < 5.0) {
+                    if (array_s[3] == 0) {
+                        document.getElementById("a1").innerText = ("テニスについて、ゲームカウントが６対６になった際に次のポイントを取った方がそのセットを取るというシステムのことをデュースという。");
+                        array_s[3] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+
+                }
+
+                else if (5.0 <= r && r < 6.25) {
+                    if (array_s[4] == 0) {
+                        document.getElementById("a1").innerText = ("バレーボールにおいて、セッターの選手は一人だけ違うユニフォームを着る。");
+                        array_s[4] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (6.25 <= r && r < 7.5) {
+                    if (array_s[5] == 0) {
+                        document.getElementById("a1").innerText = ("ラグビーについて、スクラムとは両方のフォワードのプレーヤー８人同士が組みあって、その真ん中に投げ込まれたボールを押し合って奪い合う、ゲーム再開のセットプレーの一つである。");
+                        array_s[5] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (7.5 <= r && r < 8.75) {
+                    if (array_s[6] == 0) {
+                        document.getElementById("a1").innerText = ("ホッケーについて、サッカーと同様にオフサイドが存在する。");
+                        array_s[6] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else {
+                    if (array_s[7] == 0) {
+                        document.getElementById("a1").innerText = ("卓球について、打ったボールがネットに触れて相手コートに入った場合、ネットインとして、正しいリターンとなりラリーが続くが、サービスがネットインした場合はノーカウントとなる。");
+                        array_s[7] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+            }
+
+            if (the == 2) {
+                r = Math.random() * 10;
+                if (0 <= r && r < 0.75) {
+                    if (array_j[0] == 0) {
+                        document.getElementById("a1").innerText = ("情報投資において、リスクや投資価値の類似性でカテゴリに分けし、最適な資源配分を行う際用いる手法をITポートフォリオである。");
+                        array_j[0] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (0.75 <= r && r < 1.5) {
+                    if (array_j[1] == 0) {
+                        document.getElementById("a1").innerText = ("サービスマネジメントシステムにPDCA方法論を適用するとき、Actとは、方針、目的、計画などの要求事項に対し、サービス監視および、測定、レビューし、それらの結果を報告するものである。");
+                        array_j[1] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (1.5 <= r && r < 2.25) {
+                    if (array_j[2] == 0) {
+                        document.getElementById("a1").innerText = ("DRAMの特徴はメモリセル構造が単純なので高集積化することができ、ビット単価を安くできる。");
+                        array_j[2] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (2.25 <= r && r < 3.0) {
+                    if (array_j[3] == 0) {
+                        document.getElementById("a1").innerText = ("RAIDの分類において、ミラーリングを用いることで信頼性を高め、障害発生時には助長ディスクを用いてデータ復元を行う方式はRAID1である。");
+                        array_j[3] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+
+                }
+
+                else if (3.0 <= r && r < 3.75) {
+                    if (array_j[4] == 0) {
+                        document.getElementById("a1").innerText = ("A, C, K, S, Tの順に文字が入力される。スタックを利用して、S, T, A, C, Kという順に文字を出力する際最小限必要なスタック数は3である。");
+                        array_j[4] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (3.75 <= r && r < 4.5) {
+                    if (array_j[5] == 0) {
+                        document.getElementById("a1").innerText = ("メディアコンバータ、リピータハブ、レイヤ２スイッチ、レイヤ３スイッチのうち、レイヤ３スイッチだけが持つ機能は、データリンク層において、宛先アドレスに従って適切なLANポートにパケットを中継する機能である。");
+                        array_j[5] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (4.5 <= r && r < 5.25) {
+                    if (array_j[6] == 0) {
+                        document.getElementById("a1").innerText = ("WPA3は無線LANのセキュリティ規格である。");
+                        array_j[6] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+                else if (5.25 <= r && r < 6.0) {
+                    if (array_j[7] == 0) {
+                        document.getElementById("a1").innerText = ("二つのアクティビティが次の関係にある時、論理的な依存関係はSF関係である。“システム要件定義プロセス”が完了すれば、”システム方式設計プロセス”が開始できる。");
+                        array_j[7] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+                else if (6.0 <= r && r < 6.75) {
+                    if (array_j[8] == 0) {
+                        document.getElementById("a1").innerText = ("2台の処理装置から成るシステムがある。少なくともいずれか一方が正常に動作すればよい時の稼働率と、2台とも正常に動作しなければならないときの稼働率の差は0.19である。");
+                        array_j[8] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (6.75 <= r && r < 7.5) {
+                    if (array_j[9] == 0) {
+                        document.getElementById("a1").innerText = ("優先度に基づくプリエンプティブナスケジュールを行うリアルタイムOSで、2つのタスクA, Bをスケジューリングする。Aの方がBより優先度が高い場合にリアルタイムOSが行う動作は、Bの実行中にAに起動がかかると、Bを待ち状態にしてAを実行するものである。");
+                        array_j[9] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (7.5 <= r && r < 8.25) {
+                    if (array_j[10] == 0) {
+                        document.getElementById("a1").innerText = ("コードから商品の内容が容易にわかるようにしたいときは、表意コードを用いる。");
+                        array_j[10] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (8.25 <= r && r < 9.0) {
+                    if (array_j[11] == 0) {
+                        document.getElementById("a1").innerText = ("関係モデルにおいて、関係から特定の属性だけを取り出す演算を射影という。");
+                        array_j[11] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else {
+                    if (array_j[12] == 0) {
+                        document.getElementById("a1").innerText = ("検体をサンドボックス上で実行し、その動作や外部との通信を推測するものは、マルウェアの動的解析に該当するものである。");
+                        array_j[12] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+            }
+
+            if (the == 3) {
+                r = Math.random() * 10;
+                if (0 <= r && r < 1.0) {
+                    if (array_h[0] == 0) {
+                        document.getElementById("a1").innerText = ("秘書A子は上司のスケジュールを管理する上で、スケジュールの変更があったら、そのつど上司に確認し、新しいスケジュール表を作成し直すことを心掛けている。これは適当であるか。");
+                        array_h[0] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (1.0 <= r && r < 2.0) {
+                    if (array_h[1] == 0) {
+                        document.getElementById("a1").innerText = ("書類に何が書かれているかの何かをとらえ、それをテーマにするまとめ方は、主題別整理である。");
+                        array_h[1] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (2.0 <= r && r < 3.0) {
+                    if (array_h[2] == 0) {
+                        document.getElementById("a1").innerText = ("秘書Ａ子は上司の指示で，社外から関係者を招いて行う会議の案内状を作成し郵送した。ところがあらためて文面を見ると，会議の終了時間が１時間遅く書かれていた。このときA子は、大人数ではないので，電話で終了時間を訂正してわびることにした。これは適切か。");
+                        array_h[2] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (3.0 <= r && r < 4.0) {
+                    if (array_h[3] == 0) {
+                        document.getElementById("a1").innerText = ("オールマイティー＝万能であること。これは正しいか。");
+                        array_h[3] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+
+                }
+
+                else if (4.0 <= r && r < 5.0) {
+                    if (array_h[4] == 0) {
+                        document.getElementById("a1").innerText = ("秘書Ａ子は上司（経理部長）の外出中、営業部長から「経理部長に至急、確認したいことがある」と言われた。上司は、「個人的な用で銀行に行く。そう遅くはならないと思う」と言って出掛けていた。この時、Ａ子は営業部長に『上司は個人的な用で銀行に行くと言って外出した、戻ったら連絡するがそれでよいか』と言った。これは適当か。");
+                        array_h[4] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (5.0 <= r && r < 6.0) {
+                    if (array_h[5] == 0) {
+                        document.getElementById("a1").innerText = ("NPO=民間営利団体。これは適当か。");
+                        array_h[5] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (6.0 <= r && r < 7.0) {
+                    if (array_h[6] == 0) {
+                        document.getElementById("a1").innerText = ("ODA＝政府開発援助。これは適当か。");
+                        array_h[6] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+                else if (7.0 <= r && r < 8.0) {
+                    if (array_h[7] == 0) {
+                        document.getElementById("a1").innerText = ("IOC＝国際オリンピック委員会。これは適当か。");
+                        array_h[7] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+                else if (8.0 <= r && r < 9.0) {
+                    if (array_h[8] == 0) {
+                        document.getElementById("a1").innerText = ("AU＝アジア連合である。これは適当か。");
+                        array_h[8] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+                else {
+                    if (array_h[9] == 0) {
+                        document.getElementById("a1").innerText = ("PKO＝国連平和維持活動。これは適当か。");
+                        array_h[9] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+            }
+
+            if (the == 4) {
+                r = Math.random() * 10;
+                if (0 <= r && r < 0.8) {
+                    if (array_i[0] == 0) {
+                        document.getElementById("a1").innerText = ("「枯れ木」「初雪」「節分」は冬の季語である。");
+                        array_i[0] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (0.8 <= r && r < 1.6) {
+                    if (array_i[1] == 0) {
+                        document.getElementById("a1").innerText = ("1㎢は100haで、1aは100㎡である。");
+                        array_i[1] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (1.6 <= r && r < 2.4) {
+                    if (array_i[2] == 0) {
+                        document.getElementById("a1").innerText = ("昔から歌われるABCの歌には“＆”が出てくるが“＆”は現在アルファベットには含まれない。");
+                        array_i[2] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (2.4 <= r && r < 3.2) {
+                    if (array_i[3] == 0) {
+                        document.getElementById("a1").innerText = ("地球上で一番素早く動ける動物はチーターである。");
+                        array_i[3] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+
+                }
+
+                else if (3.2 <= r && r < 4.0) {
+                    if (array_i[4] == 0) {
+                        document.getElementById("a1").innerText = ("日本で一番小さい都道府県は大阪府である。");
+                        array_i[4] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (4.0 <= r && r < 4.8) {
+                    if (array_i[5] == 0) {
+                        document.getElementById("a1").innerText = ("日本を代表する小説家“夏目漱石”は「草枕」「三四郎」などの代表作をもつ。");
+                        array_i[5] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (4.8 <= r && r < 5.6) {
+                    if (array_i[6] == 0) {
+                        document.getElementById("a1").innerText = ("イモリは爬虫類でヤモリは両生類である。");
+                        array_i[6] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (5.6 <= r && r < 6.4) {
+                    if (array_i[7] == 0) {
+                        document.getElementById("a1").innerText = ("スポーツ「アメリカンフットボール」を漢字で書くと、「鎧球」と書く。");
+                        array_i[7] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (6.4 <= r && r < 7.2) {
+                    if (array_i[8] == 0) {
+                        document.getElementById("a1").innerText = ("昭和33年3月3日に生まれた人は、平成3年3月3日の時に33才になっている。");
+                        array_i[8] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (7.2 <= r && r < 8.0) {
+                    if (array_i[9] == 0) {
+                        document.getElementById("a1").innerText = ("「オートバイ」は和製英語ではない。");
+                        array_i[9] = 1;
+                        maru.onclick = form_alert(1);
+                        batu.onclick = form_alert(0);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else if (8.0 <= r && r < 8.8) {
+                    if (array_i[10] == 0) {
+                        document.getElementById("a1").innerText = ("「曇り時々雨」と「曇り一時雨」は、「曇り時々雨」の方が、雨が降っている時間が多い。");
+                        array_i[10] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+                else {
+                    if (array_i[12] == 0) {
+                        document.getElementById("a1").innerText = ("江戸時代を収めた徳川将軍は15代までいる。徳川家13代将軍は徳川家定である。");
+                        array_i[12] = 1;
+                        maru.onclick = form_alert(0);
+                        batu.onclick = form_alert(1);
+                    }
+                    else {
+                        make_question(the);
+                    }
+                }
+
+            }
+        }
+
+        function form_alert(j) {
+
+            return function () {
+                if (j == 0) {
+                    music_cor.play();
+                    alert("正解です！");
+                    count_question(0);
+                }
+                else {
+                    music_wro.play();
+                    alert("残念！不正解！");
+                    count_question(1);
+                }
+            };
+
+        }
+
+        function count_question(k) {
+
+            iq++;
+
+            if (k == 0) {
+                cor++;
+            }
+            if (iq == 8) {
+                if (cor == 0) {
+                    bell.play();
+                    alert("正解数は" + iq + "問中" + cor + "問です！もっと頑張ろう…");
+                    window.close();
+                }
+                else if (cor >= 1 && cor <= 4) {
+                    manuke.play();
+                    alert("正解数は" + iq + "問中" + cor + "問です！まだまだいける！");
+                    window.close();
+                }
+                else if (cor >= 5 && cor <= 7) {
+                    level.play();
+                    alert("正解数は" + iq + "問中" + cor + "問です！いい感じ！");
+                    window.close();
+                }
+                else if (cor == iq) {
+                    fanfare.play();
+                    alert("全問正解！すばらしい！！");
+                    window.close();
+                }
+            }
+            else {
+                make_question(the);
+            }
+        }
+    </script>
+    <audio src="bgm.mp3" id="bgm" autoplay loop>
+    </audio>
+
+    <div class="radio">
+        <p id="category">
+            ジャンルを選ぼう！
+            <br />
+        </p>
+        <p1 id="r1">
+            <input type="radio" id="ra1" name="img"> スポーツ
+        </p1>
+        <p2 id="r2">
+            <input type="radio" id="ra2" name="img"> 情報
+        </p2>
+        <p3 id="r3">
+            <input type="radio" id="ra3" name="img"> 秘書
+        </p3>
+        <p4 id="r4">
+            <input type="radio" id="ra4" name="img"> 一般常識
+        </p4>
+        <br />
+        <input TYPE="button" NAME="btn" id="btn" VALUE="決定" onclick="radio_select()" />
+    </div>
+
+    <div style="text-align: center">
+        <textarea name="field1" style="font-size:180%" id="a1" cols="96" rows="5" readonly></textarea>
+    </div>
+</body>
+</html>
+
